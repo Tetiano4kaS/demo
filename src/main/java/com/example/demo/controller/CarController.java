@@ -2,16 +2,14 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.CarDto;
 import com.example.demo.model.Car;
-import com.example.demo.repository.CarRepository;
 import com.example.demo.service.CarService;
 import com.example.demo.util.View;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+
 
 import java.util.List;
 
@@ -20,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/cars")
 public class CarController {
-    private final CarRepository carRepository;
     private final CarService carService;
 
 
@@ -32,7 +29,7 @@ public class CarController {
 
     @JsonView(View.Level2.class)
     @GetMapping("/{id}")
-    public ResponseEntity<CarDto> getCar(@PathVariable Integer id) {
+    public ResponseEntity<CarDto> getCar(@PathVariable String id) {
         CarDto carDtoById = carService.getCarById(id);
         return ResponseEntity.ok(carDtoById);
     }
@@ -43,16 +40,16 @@ public class CarController {
         return new ResponseEntity(car, HttpStatus.CREATED);
     }
 
-    @SneakyThrows
-    @PutMapping("/{id}/image")
-    public ResponseEntity<Void> uploadCarImage(@PathVariable Integer id, @RequestParam("file") MultipartFile attachment) {
-        carService.updateCarImage(id, attachment.getBytes());
-        return new ResponseEntity(HttpStatus.OK);
-    }
+//    @SneakyThrows
+//    @PutMapping("/{id}/image")
+//    public ResponseEntity<Void> uploadCarImage(@PathVariable Integer id, @RequestParam("file") MultipartFile attachment) {
+//        carService.updateCarImage(id, attachment.getBytes());
+//        return new ResponseEntity(HttpStatus.OK);
+//    }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCar(@PathVariable Integer id) {
+    public void deleteCar(@PathVariable String id) {
         carService.deleteCar(id);
     }
 

@@ -7,6 +7,7 @@ import com.example.demo.model.Car;
 import com.example.demo.repository.CarRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class CarService {
         return carRepository.findAll();
     }
 
-    public CarDto getCarById(Integer id) {
+    public CarDto getCarById(String id) {
         Car car = carRepository.findById(id).orElseThrow(()
                 -> new CarNotFoundException("Car with id: " + id + " Not Found"));
         CarDto carDto = CarMapper.mapEntityToDto(car);
@@ -36,7 +37,7 @@ public class CarService {
         return savedCar;
     }
 
-    public void deleteCar(Integer id) {
+    public void deleteCar(String id) {
         carRepository.deleteById(id);
         emailService.sendMail("Car was delete", "Car with id: " + id + " was delete");
     }
@@ -49,11 +50,11 @@ public class CarService {
         return carRepository.getCarByProducer(producer);
     }
 
-    @Transactional
-    public void updateCarImage(Integer id, byte[] image) {
-        carRepository
-                .findById(id)
-                .ifPresent(car -> car.setImage(image));
-
-    }
+//    @Transactional
+//    public void updateCarImage(String id, byte[] image) {
+//        carRepository
+//                .findById(id)
+//                .ifPresent(car -> car.setImage(image));
+//
+//    }
 }

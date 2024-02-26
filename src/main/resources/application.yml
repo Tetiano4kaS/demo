@@ -4,6 +4,10 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    mongodb:
+      uri: "mongodb+srv://tetiano4ka_S:55neogamE@cluster0.ln10fea.mongodb.net/"
+      database: "carDb"
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
@@ -22,4 +26,6 @@ spring:
           starttls:
             enable: true
 
+jwt:
+  signingKey: 8Bv6B6dWbgb0fnL0eNpQcUX6pY5oZ+jXJ1PpJbf4EaM= #зашифрований ключ HMAC-SHA256 для значення "viva-lavita-nkkihghjkjh-2024" - 8Bv6B6dWbgb0fnL0eNpQcUX6pY5oZ+jXJ1PpJbf4EaM=
 

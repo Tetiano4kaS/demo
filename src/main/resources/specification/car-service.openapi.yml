@@ -1,0 +1,143 @@
+openapi: 3.0.3
+
+info:
+  title: Car service API
+  description: OpenAPI specification example based on Car model.
+  version: 0.0.1
+
+servers:
+  - url: https://localhost:8080
+
+tags:
+  - name: car
+
+paths:
+  "/cars":
+    get:
+      tags:
+        - car
+      summary: Returns a list of cars.
+      description: Fetch all existing cars.
+      operationId: getCars
+      responses:
+        '200':
+          $ref: '#/components/responses/CarList'
+        '400':
+          description: Invalid request.
+    post:
+      tags:
+        - car
+      summary: Create car
+      operationId: createCar
+      requestBody:
+        $ref: '#/components/requestBodies/Car'
+      responses:
+        '201':
+          $ref: '#/components/responses/Car'
+        '400':
+          description: Invalid request
+
+  "/cars/{id}":
+    get:
+      tags:
+        - car
+      summary: Get specific car
+      description: Get car by id
+      operationId: getCar
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Car ID
+      responses:
+        '200':
+          $ref: '#/components/responses/Car'
+        '400':
+          description: Invalid request
+    put:
+      tags:
+        - car
+      summary: Modify specific car
+      description: Update only car properties included in the body
+      operationId: modifyCar
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            description: Car ID
+      requestBody:
+        $ref: "#/components/requestBodies/Car"
+      responses:
+        '201':
+          $ref: '#/components/responses/Car'
+        '400':
+          description: Invalid request
+        '422':
+          description: Validation exception
+    delete:
+      tags:
+        - car
+      summary: Delete car
+      description: Delete only car properties included in the list.
+      operationId: deleteCar
+      parameters:
+        - in: path
+          name: id
+          description: The ID that needs to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Car not found
+components:
+  schemas:
+    Car:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          example: 'fghjl234hddfgh'
+        model:
+          type: string
+          example: 'Audi'
+        producer:
+          type: string
+          example: 'Deutch'
+        power:
+          type: integer
+          format: int32
+          minimum: 60
+          maximum: 1500
+          example: 290
+
+  responses:
+    Car:
+      description: Car
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Car'
+    CarList:
+      description: Car List
+      content:
+        application/json:
+          schema:
+            type: object
+            items:
+              $ref: '#/components/schemas/Car'
+  requestBodies:
+    Car:
+      description: Car to be created
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Car'

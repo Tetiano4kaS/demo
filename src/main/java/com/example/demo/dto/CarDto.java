@@ -9,7 +9,7 @@ import lombok.Data;
 @Builder
 public class CarDto {
     @JsonView(View.Level1.class)
-    private Integer id;
+    private String id;
     @JsonView(View.Level2.class)
     private String model;
     @JsonView(View.Level1.class)
